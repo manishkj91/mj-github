@@ -174,6 +174,16 @@ class SessionStatus(StrEnum):
     COMPLETE = "complete"
 
 
+class QuestionProgress(BaseModel):
+    """Per-question progress for the HTTP/turn-by-turn flow."""
+
+    question_id: str
+    followup_count: int = 0
+    interviewer_notes: dict = Field(default_factory=dict)
+    awaiting_answer_to: str | None = None  # the last interviewer utterance
+    finished: bool = False
+
+
 class SessionState(BaseModel):
     session_id: str
     status: SessionStatus = SessionStatus.INTAKE
@@ -184,3 +194,6 @@ class SessionState(BaseModel):
     transcripts: dict[str, list[Turn]] = Field(default_factory=dict)
     evaluations: dict[str, EvaluationOutput] = Field(default_factory=dict)
     summary: SessionSummary | None = None
+    progress: dict[str, QuestionProgress] = Field(default_factory=dict)
+    selected_question_ids: list[str] = Field(default_factory=list)
+    current_question_index: int = 0

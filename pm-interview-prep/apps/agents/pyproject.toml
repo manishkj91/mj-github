@@ -15,6 +15,9 @@ dependencies = [
     "rich>=13.7,<14",
     "tenacity>=9.0,<10",
     "python-dotenv>=1.0,<2",
+    "fastapi>=0.115,<1",
+    "uvicorn[standard]>=0.30,<1",
+    "python-multipart>=0.0.9,<1",
 ]
 
 [project.optional-dependencies]
@@ -28,6 +31,7 @@ dev = [
 [project.scripts]
 pm-scan = "agents.cli.scan:app"
 pm-session = "agents.cli.session:app"
+pm-server = "agents.server.cli:main"
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
@@ -46,6 +50,7 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "src/agents/cli/*.py" = ["B008"]  # typer.Option in defaults is the canonical pattern
+"src/agents/server/*.py" = ["B008"]  # fastapi Depends/File/Form in defaults is the canonical pattern
 
 [tool.mypy]
 python_version = "3.11"
