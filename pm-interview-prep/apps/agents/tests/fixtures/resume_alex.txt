@@ -1,0 +1,26 @@
+Alex Chen
+[EMAIL]  ·  [PHONE]  ·  [LINKEDIN]
+San Francisco, CA
+
+EXPERIENCE
+
+Senior Product Manager, Stripe — 2022 to Present
+- Owned Connect onboarding for the Americas region; team of 4 engineers, 1 designer.
+- Led the redesign of the merchant KYC flow; lifted activation from 38% to 51% in 6 weeks (+13pp).
+- Drove a contentious deprecation of legacy webhooks across 3 partner teams; shipped on schedule.
+- Mentored 2 APMs; both promoted within 12 months.
+
+Product Manager, Square — 2019 to 2022
+- Owned the Cash App for Business onboarding funnel; cut median time-to-first-payment by 42%.
+- Sunset a $4M/yr SMB lending pilot after a 90-day discovery sprint; reallocated budget to receivables.
+- Ran weekly customer interviews; built a quantified objection backlog used by 4 squads.
+
+Software Engineer, Palantir — 2016 to 2019
+- Built deployment tooling for 3 government customers; reduced release cycle from 6 weeks to 9 days.
+- Transitioned to PM track via internal APM program in 2019.
+
+EDUCATION
+B.S. Computer Science, Carnegie Mellon University — 2016
+
+SKILLS
+Product strategy · SQL · A/B testing · Mixpanel · Figma · stakeholder management

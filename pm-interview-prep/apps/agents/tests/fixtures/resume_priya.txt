@@ -1,0 +1,22 @@
+Priya Rao — Associate Product Manager
+[EMAIL]  ·  [PHONE]
+
+EXPERIENCE
+
+Associate Product Manager, Notion — 2024 to Present
+- Owned the AI writing assistant onboarding tour; +18% activation among new free users.
+- Ran 12 customer interviews to scope a Q3 templates project; shipped 3 of 5 proposed features.
+- Coordinated weekly syncs across design, ML, and growth squads.
+
+Product Analyst, Atlassian — 2022 to 2024
+- Built dashboards tracking activation across Jira Cloud onboarding; surfaced a 22% drop-off step.
+- Partnered with PM on a redesign that recovered 9pp of activation over two quarters.
+
+Software Engineer Intern, Google — Summer 2021
+- Wrote internal tooling for the Search Quality team; no public-facing impact.
+
+EDUCATION
+B.A. Symbolic Systems, Stanford — 2022
+
+SKILLS
+SQL · Looker · Python · user research · Figma

@@ -1,0 +1,57 @@
+[project]
+name = "pm-interview-agents"
+version = "0.1.0"
+description = "Agentic backend for the PM Behavioral Interview Prep tool"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Manish Jain" }]
+dependencies = [
+    "pydantic>=2.7,<3",
+    "pydantic-settings>=2.3,<3",
+    "google-generativeai>=0.8,<1",
+    "pypdf>=5.0,<6",
+    "python-docx>=1.1,<2",
+    "typer>=0.12,<1",
+    "rich>=13.7,<14",
+    "tenacity>=9.0,<10",
+    "python-dotenv>=1.0,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2,<9",
+    "pytest-cov>=5.0,<6",
+    "ruff>=0.6,<1",
+    "mypy>=1.10,<2",
+]
+
+[project.scripts]
+pm-scan = "agents.cli.scan:app"
+pm-session = "agents.cli.session:app"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/agents/cli/*.py" = ["B008"]  # typer.Option in defaults is the canonical pattern
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
