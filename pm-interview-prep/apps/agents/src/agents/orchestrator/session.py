@@ -27,6 +27,7 @@ from ..contracts import (
     EvaluationInput,
     InterviewTurnInput,
     QuestionPlanItem,
+    QuestionProgress,
     ResumeScanInput,
     Seniority,
     SessionState,
@@ -43,6 +44,22 @@ class InterviewerSay:
     question: QuestionPlanItem
     utterance: str
     is_followup: bool
+
+
+@dataclass
+class TurnResult:
+    """Returned by ``begin_question``/``submit_answer`` for HTTP transports.
+
+    Either ``utterance`` is set (the candidate must answer next) OR
+    ``question_finished`` is True (move to the next question or summarize).
+    """
+
+    question: QuestionPlanItem
+    utterance: str
+    is_followup: bool
+    question_finished: bool
+    next_question_id: str | None
+    session_complete: bool
 
 
 # An AnswerProvider takes the latest interviewer utterance and returns the
@@ -146,6 +163,172 @@ class Orchestrator:
         self.evaluate_all(state)
         self.summarize(state)
         return state
+
+    # -- HTTP-friendly turn-by-turn API --------------------------------------
+
+    def select_questions(
+        self, state: SessionState, question_ids: list[str] | None = None
+    ) -> SessionState:
+        """Pick which questions to actually run. Defaults to the first N from the plan."""
+        if state.scan is None:
+            raise RuntimeError("Cannot select questions before scan.")
+        if question_ids is None:
+            ids = [q.id for q in state.scan.question_plan][
+                : self._settings.max_questions_per_session
+            ]
+        else:
+            valid = {q.id for q in state.scan.question_plan}
+            ids = [qid for qid in question_ids if qid in valid][
+                : self._settings.max_questions_per_session
+            ]
+        state.selected_question_ids = ids
+        state.current_question_index = 0
+        if state.status == SessionStatus.SCANNED:
+            state.status = SessionStatus.IN_INTERVIEW
+        return state
+
+    def begin_question(self, state: SessionState) -> TurnResult:
+        """Ask the current question. Caller renders the utterance and waits for an answer."""
+        question = self._current_question(state)
+        if question is None:
+            return self._terminal_turn(state)
+
+        progress = state.progress.get(question.id) or QuestionProgress(question_id=question.id)
+        transcript = state.transcripts.setdefault(question.id, [])
+
+        ask = next_interviewer_turn(
+            self._client,
+            InterviewTurnInput(
+                current_question=question,
+                transcript_so_far=transcript,
+                interviewer_notes=progress.interviewer_notes,
+                followup_count=progress.followup_count,
+                target_seniority=state.target_seniority,
+            ),
+        )
+        transcript.append(Turn(role="interviewer", content=ask.utterance))
+        progress.interviewer_notes = ask.updated_notes
+        progress.awaiting_answer_to = ask.utterance
+        state.progress[question.id] = progress
+
+        return TurnResult(
+            question=question,
+            utterance=ask.utterance,
+            is_followup=False,
+            question_finished=False,
+            next_question_id=None,
+            session_complete=False,
+        )
+
+    def submit_answer(self, state: SessionState, answer_text: str) -> TurnResult:
+        """Record the candidate's answer and decide what comes next.
+
+        Either:
+        * a follow-up question is returned (``is_followup=True``), OR
+        * the question is marked finished and the next question id is returned.
+        """
+        question = self._current_question(state)
+        if question is None:
+            return self._terminal_turn(state)
+
+        progress = state.progress.setdefault(
+            question.id, QuestionProgress(question_id=question.id)
+        )
+        transcript = state.transcripts.setdefault(question.id, [])
+
+        clipped = (answer_text or "").strip()[: self._settings.max_answer_chars]
+        transcript.append(Turn(role="candidate", content=clipped))
+        progress.awaiting_answer_to = None
+
+        if progress.followup_count >= self._settings.max_followups_per_question:
+            return self._finish_question(state, question, progress)
+
+        decision = next_interviewer_turn(
+            self._client,
+            InterviewTurnInput(
+                current_question=question,
+                transcript_so_far=transcript,
+                interviewer_notes=progress.interviewer_notes,
+                followup_count=progress.followup_count,
+                target_seniority=state.target_seniority,
+            ),
+        )
+        progress.interviewer_notes = decision.updated_notes
+
+        if decision.next_action != "ask_followup" or not decision.utterance.strip():
+            return self._finish_question(state, question, progress)
+
+        transcript.append(Turn(role="interviewer", content=decision.utterance))
+        progress.followup_count = decision.followup_count
+        progress.awaiting_answer_to = decision.utterance
+
+        return TurnResult(
+            question=question,
+            utterance=decision.utterance,
+            is_followup=True,
+            question_finished=False,
+            next_question_id=None,
+            session_complete=False,
+        )
+
+    def skip_question(self, state: SessionState) -> TurnResult:
+        """Mark current question as finished without further follow-ups."""
+        question = self._current_question(state)
+        if question is None:
+            return self._terminal_turn(state)
+        progress = state.progress.setdefault(
+            question.id, QuestionProgress(question_id=question.id)
+        )
+        return self._finish_question(state, question, progress)
+
+    def _finish_question(
+        self,
+        state: SessionState,
+        question: QuestionPlanItem,
+        progress: QuestionProgress,
+    ) -> TurnResult:
+        progress.finished = True
+        progress.awaiting_answer_to = None
+        state.progress[question.id] = progress
+        state.current_question_index += 1
+        next_q = self._current_question(state)
+        return TurnResult(
+            question=question,
+            utterance="",
+            is_followup=False,
+            question_finished=True,
+            next_question_id=next_q.id if next_q else None,
+            session_complete=next_q is None,
+        )
+
+    def _current_question(self, state: SessionState) -> QuestionPlanItem | None:
+        if state.scan is None or not state.selected_question_ids:
+            return None
+        if state.current_question_index >= len(state.selected_question_ids):
+            return None
+        target_id = state.selected_question_ids[state.current_question_index]
+        for q in state.scan.question_plan:
+            if q.id == target_id:
+                return q
+        return None
+
+    def _terminal_turn(self, state: SessionState) -> TurnResult:
+        # Best-effort placeholder when the caller asks for "next" but we're done.
+        last_q = (
+            state.scan.question_plan[-1]
+            if state.scan and state.scan.question_plan
+            else None
+        )
+        if last_q is None:
+            raise RuntimeError("No questions in plan; cannot produce a terminal turn.")
+        return TurnResult(
+            question=last_q,
+            utterance="",
+            is_followup=False,
+            question_finished=True,
+            next_question_id=None,
+            session_complete=True,
+        )
 
     # -- internals ------------------------------------------------------------
 

@@ -18,8 +18,11 @@ class Settings(BaseSettings):
     llm_provider: Literal["gemini", "mock"] = "mock"
 
     gemini_api_key: str | None = None
-    gemini_strong_model: str = "gemini-2.5-pro"
-    gemini_cheap_model: str = "gemini-2.5-flash"
+    # Defaults are chosen to fit the Gemini free tier (gemini-2.5-pro is no
+    # longer in the free tier). Override via env vars when on a paid plan.
+    gemini_strong_model: str = "gemini-2.5-flash"
+    gemini_cheap_model: str = "gemini-2.5-flash-lite"
+    gemini_rpm: int = Field(default=10, ge=1, le=600)  # free tier = 10 rpm per model
 
     max_followups_per_question: int = Field(default=2, ge=0, le=3)
     max_questions_per_session: int = Field(default=5, ge=1, le=12)
