@@ -21,5 +21,6 @@ def build_client() -> LLMClient:
             api_key=settings.gemini_api_key,
             strong_model=settings.gemini_strong_model,
             cheap_model=settings.gemini_cheap_model,
+            rpm=settings.gemini_rpm,
         )
     return MockClient()

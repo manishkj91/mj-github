@@ -41,5 +41,5 @@ def build_summary(
         schema=SessionSummary,
         tier="strong",
         temperature=0.3,
-        max_output_tokens=1500,
+        max_output_tokens=4096,
     )

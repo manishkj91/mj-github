@@ -43,7 +43,7 @@ def scan_resume(client: LLMClient, payload: ResumeScanInput) -> ResumeScanOutput
         schema=ResumeScanOutput,
         tier="strong",
         temperature=0.4,
-        max_output_tokens=2048,
+        max_output_tokens=8192,
     )
 
     return _enforce_grounding(raw, redacted)
