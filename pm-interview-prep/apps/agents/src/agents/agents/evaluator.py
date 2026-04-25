@@ -24,5 +24,5 @@ def evaluate_answer(client: LLMClient, payload: EvaluationInput) -> EvaluationOu
         schema=EvaluationOutput,
         tier="strong",
         temperature=0.3,
-        max_output_tokens=1500,
+        max_output_tokens=4096,
     )
