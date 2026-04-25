@@ -1,81 +1,54 @@
-> **This repo is for [Product Growth](https://www.news.aakashg.com) paid subscribers only.** Please do not share or redistribute. If you found this link somewhere other than your subscription, [subscribe here](https://www.news.aakashg.com).
+# Hi, I'm Manish 👋
 
-# PM GitHub Starter Kit
+**Builder Product Manager | AI & Automation Tinkerer | Strategist**
 
-Profile templates, project README templates, AI coding prompts, and a 3-week checklist to build a GitHub that gets you hired.
+I'm a Product Manager with over a decade of experience in the tech industry, specializing in bridging complex business goals with genuine human needs. I believe the best PMs don't just write PRDs—they build, experiment, and deeply understand the architecture behind their products. 
 
-**24% of PM candidates have a GitHub. The latest PMs I placed at OpenAI, Anthropic, and Meta AI all had one.**
-
-This is the companion repo to [How to Build a PM GitHub](https://www.news.aakashg.com/p/you-should-build-a-pm-github) — the web's first guide on PM GitHub profiles.
+This GitHub is my sandbox for hands-on experiments, primarily focused on AI agent architecture, workflow automation, and financial tools. 
 
 ---
 
-## What's Inside
-
-```
-pm-github-starter-kit/
-├── templates/
-│   ├── PROFILE-README.md      # Your GitHub profile landing page
-│   └── PROJECT-README.md      # README template for every project you build
-├── prompts/
-│   ├── create-repo.md         # Cursor/Claude Code: create a new repo
-│   ├── build-project.md       # Cursor/Claude Code: build your first agent
-│   ├── commit-and-push.md     # Cursor/Claude Code: save and publish
-│   └── write-readme.md        # Cursor/Claude Code: generate documentation
-├── CHECKLIST.md               # Your 3-week roadmap from zero to live
-└── .gitignore                 # Python project defaults
-```
-
-## Quick Start
-
-1. **Fork this repo** (click "Fork" in the top right)
-2. **Follow [CHECKLIST.md](CHECKLIST.md)** — your day-by-day plan
-3. **Use the templates** in `templates/` for your profile and project READMEs
-4. **Copy the prompts** in `prompts/` into Cursor or Claude Code to build, commit, and document
-
-## The 3-Week Plan
-
-| When | What | Use |
-|------|------|-----|
-| **Day 1** | Set up your profile | `templates/PROFILE-README.md` |
-| **Day 2** | Build and ship your first project | `prompts/build-project.md` |
-| **Week 2** | Create your flagship project | `prompts/create-repo.md` |
-| **Week 3** | Polish docs, add screenshots, publish | `prompts/write-readme.md` |
-
-See [CHECKLIST.md](CHECKLIST.md) for the full checklist with every step.
-
-## What Makes a Great PM GitHub
-
-Based on analyzing profiles like [Shubham Saboo's](https://github.com/Shubhamsaboo) (78K+ stars, went from Dev Rel to Senior AI PM at Google):
-
-1. **One flagship project that solves a real problem** — not scattered toy repos
-2. **Crystal clear positioning** — your bio says what you build in one line
-3. **Consistent contribution activity** — recent activity beats total stars
-4. **Strategic forks and contributions** — contribute to tools in your target domain
-5. **Documentation that shows product thinking** — tradeoffs, decisions, learnings
-6. **The portfolio effect** — repos that tell a story together
-
-The `PROJECT-README.md` template bakes in the sections hiring managers look for: Problem, Solution, Tradeoffs, and What I Learned.
-
-## What to Avoid
-
-- **Copy-paste repos** — if you can't explain why you chose OpenAI over Claude, you don't understand what you built
-- **Joke projects** — a dad-joke chatbot proves nothing about PM skills
-- **Green square farming** — hiring managers click the squares. Empty commits are an anti-signal
-- **Engineer cosplay** — let AI write clean code. You focus on problem statements, UX, and documentation
-- **One-and-done** — a dormant GitHub is worse than no GitHub. Build one small thing per week
-
-## Related
-
-- [How to Build a PM GitHub](https://www.news.aakashg.com/p/you-should-build-a-pm-github) — the full deep dive
-- [How to Land an AI PM Job](https://www.aakashg.com)
-- [AI Agent Guide for PMs](https://www.aakashg.com)
-- [Product Growth Newsletter](https://www.news.aakashg.com)
-
-## License
-
-For personal use by Product Growth subscribers only. Do not redistribute or share publicly.
+### 🛠️ What I'm Building & Exploring
+As a "Builder PM," I use this space to turn concepts into tangible prototypes:
+* **AI Agents & Architecture:** Exploring loop design, tool use, and memory management to build functional AI assistants.
+* **Workflow Automation:** Building out robust, automated systems using n8n.
+* **Infrastructure & Deployment:** Getting hands dirty with Docker, Kubernetes, and Terraform to understand how modern products scale.
+* **Rapid Prototyping:** Leveraging tools like Lovable to quickly spin up functional web apps and calculators.
 
 ---
 
-Built by [Aakash Gupta](https://www.aakashg.com) | [Product Growth](https://www.news.aakashg.com)
+### 💻 Tech Stack & Toolkit
+
+* **Product & Strategy:** Product Sense, UX Design, Data Analytics (Mixpanel, SQL)
+* **AI & Logic:** LLMs, Agentic Frameworks (LangChain/LlamaIndex), Prompt Engineering
+* **Automation:** n8n, Python scripting
+* **Infra & DevOps:** Docker, Kubernetes, Terraform
+
+---
+
+### 🚀 Featured Sandbox Projects
+
+#### 1. [AI Agent Orchestrator](./link-to-repo)
+A lightweight framework experimenting with AI agent loop design. Focuses on equipping LLMs with custom tools and persistent memory to solve multi-step problems autonomously.
+
+#### 2. [SWP Financial Calculator](./link-to-repo)
+A Systematic Withdrawal Plan (SWP) calculator built to analyze financial metrics and withdrawal strategies. Rapidly prototyped using Lovable and hosted on my personal domain.
+
+#### 3. [n8n Automation Recipes](./link-to-repo)
+A collection of custom n8n workflows designed to automate repetitive tasks, manage API permissions, and streamline personal and professional operations.
+
+---
+
+### ✍️ Writing & Thoughts
+
+When I'm not building, I'm writing about product strategy, product leadership, and my AI logs. 
+* **Read my latest essays on Medium:** [Medium Profile Link]
+* **Visit my personal site:** [manishkj.tech](https://manishkj.tech)
+
+---
+
+### 📫 Let's Connect
+
+I'm always open to discussing product strategy, AI implementations, or sharing insights on navigating complex technical landscapes. 
+
+* **LinkedIn:** https://www.linkedin.com/in/manishjain10/
